@@ -3,5 +3,11 @@
     margin: 0 auto 3.188rem;
     flex-direction: row;
     max-width: 55rem;
-    height: 7.5rem;
+}
+
+@media screen and (max-width: 620px){
+    .profile{
+        width: calc(100vw - 2.375rem);
+        flex-direction: column;
+    }
 }

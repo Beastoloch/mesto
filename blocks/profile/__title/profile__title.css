@@ -3,6 +3,13 @@
     font-weight: 500;
     line-height: 3rem;
     color: #FFFFFF;
-    height: 2.438rem;
     margin: 0;
+}
+
+@media screen and (max-width: 620px){
+    .profile__title{
+        font-size: 1.688rem;
+        line-height: 2.043rem;
+        text-align: center;
+    }
 }
