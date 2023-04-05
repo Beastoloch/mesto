@@ -12,6 +12,7 @@
         font-size: 0.875rem;
         line-height: 1.059rem;
         text-align: center;
-        margin-top: 0.875rem;
+        margin: 0.875rem auto 0;
+        width: 80%;
     }
 }

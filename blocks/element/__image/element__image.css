@@ -1,0 +1,6 @@
+.element__image{
+    height: 17.625rem;
+    width: 17.625rem;
+    object-fit: cover;
+    object-position: center;
+}

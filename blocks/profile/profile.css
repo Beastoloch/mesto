@@ -9,5 +9,6 @@
     .profile{
         width: calc(100vw - 2.375rem);
         flex-direction: column;
+        margin-bottom: 2.25rem;
     }
 }
