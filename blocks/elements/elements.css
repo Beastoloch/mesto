@@ -3,7 +3,7 @@
     width: calc(100vw - 2.375rem);
     max-width: 55rem;
     flex-wrap: wrap;
-    margin: 0 auto 4.125rem;
+    margin: 0 auto 4.3rem;
     justify-content: center;
     gap: 1.25rem 1.063rem;
 }
@@ -11,5 +11,6 @@
 @media screen and (max-width: 620px){
     .elements{
         margin-bottom: 3rem;
+        gap: 1.28rem;
     }
 }
