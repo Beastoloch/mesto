@@ -3,7 +3,8 @@
     font-weight: 900;
     line-height: 1.816rem;
     margin: 0;
-    width: 180px;
+    max-width: 25rem;
+    min-width: 10rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
