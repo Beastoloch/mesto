@@ -1,5 +1,5 @@
 .element__like-button{
-    width: 1.375rem;
+    min-width: 1.375rem;
     height: 1.188rem;
     align-self: flex-end;
     margin-right: 0.313rem;
