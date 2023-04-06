@@ -1,10 +1,7 @@
 .popup__container{
     display: flex;
     flex-direction: column;
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
     width: calc(100vw - 2.375rem);
     max-width: 26.875rem;
     min-height: 20.625rem;

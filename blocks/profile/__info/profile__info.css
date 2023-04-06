@@ -3,7 +3,8 @@
     flex-direction: column;
     flex-wrap: wrap;
     min-width: 21rem;
-    max-width: 50%;
+    max-width: 35rem;
+    flex-shrink: 0;
     margin-left: 1.875rem;
     align-self: center;
 }
@@ -19,5 +20,6 @@
         margin: 0 auto;
         min-width: min-content;
         max-width: 100%;
+        flex-shrink: 1;
     }
 }

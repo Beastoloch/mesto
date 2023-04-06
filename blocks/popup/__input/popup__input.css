@@ -1,9 +1,10 @@
 .popup__input{
+    display: flex;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.059rem;
     padding-bottom: 10px;
-
+    margin-bottom: 1.8rem;
     border:none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
