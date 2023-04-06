@@ -7,6 +7,82 @@
     <title>Mesto</title>
 </head>
 <body class = "page">
-
+    <header class = "header" id = "header">
+        <div class = "header__logo"></div>
+    </header>
+    <main class = "content">
+        <section class = "profile" id = "profile">
+            <img class = "profile__avatar" src = "./images/avatar.svg" alt = "Аватар вашего профиля">
+            <div class = "profile__info">
+                <div class = "profile__edit-line">
+                    <h1 class = "profile__name">Жак-Ив Кусто</h1>
+                    <button class = "profile__edit-button"></button>
+                </div>
+                <p class = "profile__job">Исследователь океана</p>
+            </div>
+            <button class = "profile__add-button"></button>
+        </section>
+        <section class = "elements">
+            <div class = "element">
+                <img class = "element__image" src = "./images/kungur.jpg" alt = "Кунгурская ледяная пещера">
+                <div class = "element__info">
+                    <h3 class = "element__title">Кунгур</h3>
+                    <button class = "element__like-button"></button>
+                </div>
+            </div>
+            <div class = "element">
+                <img class = "element__image" src = "./images/gamsutl.jpg" alt = "гора Гамсутль">
+                <div class = "element__info">
+                    <h3 class = "element__title">Гамсутль</h3>
+                    <button class = "element__like-button"></button>
+                </div>
+            </div>
+            <div class = "element">
+                <img class = "element__image" src = "./images/bolgar.jpg" alt = "город Болгар">
+                <div class = "element__info">
+                    <h3 class = "element__title">Болгар</h3>
+                    <button class = "element__like-button"></button>
+                </div>
+            </div>
+            <div class = "element">
+                <img class = "element__image" src = "./images/kurshskaya-kosa.jpg" alt = "пейзаж Куршской косы">
+                <div class = "element__info">
+                    <h3 class = "element__title">Куршская косаffffffff</h3>
+                    <button class = "element__like-button"></button>
+                </div>
+            </div>
+            <div class = "element">
+                <img class = "element__image" src = "./images/kezenoyam.jpg" alt = "Кезенойам">
+                <div class = "element__info">
+                    <h3 class = "element__title">Кезенойам</h3>
+                    <button class = "element__like-button"></button>
+                </div>
+            </div>
+            <div class = "element">
+                <img class = "element__image" src = "./images/oymakon.jpg" alt = "Оймякон">
+                <div class = "element__info">
+                    <h3 class = "element__title">Оймякон</h3>
+                    <button class = "element__like-button"></button>
+                </div>
+            </div>
+        </section>
+        <section class = "popup" id = "popup">
+            <div class = "popup__container">
+                <button class = "popup__exit-button"></button>
+                <h2 class = "popup__title">Редактировать профиль</h2>
+                <form id = "popup__form" class = "popup__form">
+                    <input class = "popup__input popup__input_type_name" type = "text"
+                           placeholder = "Имя" value = "Жак-Ив Кусто">
+                    <input class = "popup__input popup__input_type_job" type = "text"
+                           placeholder = "О себе" value = "Исследователь океана">
+                    <button class = "popup__save-button" type = "submit">Сохранить</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <footer class = "footer">
+        <p class = "footer__copyright">&copy; 2020 Mesto Russia</p>
+    </footer>
+    <script src = "index.js"></script>
 </body>
 </html>
