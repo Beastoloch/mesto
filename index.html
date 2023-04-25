@@ -23,54 +23,13 @@
                 <button class="profile__add-button" type="button"></button>
             </section>
             <section class="elements" id = "elements">
-                <article class="element">
-                    <img class="element__image" src="./images/kungur.jpg" alt="Кунгурская ледяная пещера">
-                    <div class="element__info">
-                        <h3 class="element__title">Кунгур</h3>
-                        <button class="element__like-button" type="button"></button>
-                    </div>
-                </article>
-                <article class="element">
-                    <img class="element__image" src="./images/gamsutl.jpg" alt="гора Гамсутль">
-                    <div class="element__info">
-                        <h3 class="element__title">Гамсутль</h3>
-                        <button class="element__like-button" type="button"></button>
-                    </div>
-                </article>
-                <article class="element">
-                    <img class="element__image" src="./images/bolgar.jpg" alt="город Болгар">
-                    <div class="element__info">
-                        <h3 class="element__title">Болгар</h3>
-                        <button class="element__like-button" type="button"></button>
-                    </div>
-                </article>
-                <article class="element">
-                    <img class="element__image" src="./images/kurshskaya-kosa.jpg" alt="пейзаж Куршской косы">
-                    <div class="element__info">
-                        <h3 class="element__title">Берег Куршской Косы</h3>
-                        <button class="element__like-button" type="button"></button>
-                    </div>
-                </article>
-                <article class="element">
-                    <img class="element__image" src="./images/kezenoyam.jpg" alt="Кезенойам">
-                    <div class="element__info">
-                        <h3 class="element__title">Кезенойам</h3>
-                        <button class="element__like-button" type="button"></button>
-                    </div>
-                </article>
-                <article class="element">
-                    <img class="element__image" src="./images/oymakon.jpg" alt="Оймякон">
-                    <div class="element__info">
-                        <h3 class="element__title">Оймякон</h3>
-                        <button class="element__like-button" type="button"></button>
-                    </div>
-                </article>
+
             </section>
-            <div class="popup" id="popup">
+            <div class="popup" id="edit-popup">
                 <div class="popup__container">
                     <button class="popup__exit-button" type="button"></button>
                     <h2 class="popup__title">Редактировать профиль</h2>
-                    <form id="popup__form" class="popup__form" name = "profile-input">
+                    <form id="popup__edit-form" class="popup__form" name = "profile-input">
                         <label for="input-name"></label>
                         <input class="popup__input popup__input_type_name" type="text" placeholder="Имя" value="Жак-Ив Кусто" id="input-name" name = "input-name">
                         <label for="input-job"></label>
@@ -79,10 +38,40 @@
                     </form>
                 </div>
             </div>
+            <div class="popup" id="add-popup">
+                <div class="popup__container">
+                    <button class="popup__exit-button" type="button"></button>
+                    <h2 class="popup__title">Новое место</h2>
+                    <form id="popup__add-form" class="popup__form" name = "profile-input">
+                        <label for="input-place"></label>
+                        <input class="popup__input popup__input_type_place" type="text" placeholder="Название" id="input-place" name = "input-place">
+                        <label for="input-image"></label>
+                        <input class="popup__input popup__input_type_image" type="text" placeholder="Ссылка на картинку" id="input-image" name = "input-image">
+                        <button class="popup__save-button" type="submit">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+            <div class="popup popup_theme_dark" id="image-popup">
+                <div class = "popup__image-container">
+                    <img class = "popup__image" src = "" alt = "">
+                    <p class = "popup__image-title"></p>
+                    <button class="popup__exit-button" type="button"></button>
+                </div>
+            </div>
         </main>
         <footer class="footer">
             <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
         </footer>
+        <template id="card-template">
+            <article class="element">
+                <img class="element__image" alt = "" src = "">
+                <button class = "element__delete-button" type="button"></button>
+                <div class="element__info">
+                    <h3 class="element__title"></h3>
+                    <button class="element__like-button" type="button"></button>
+                </div>
+            </article>
+        </template>
         <script src="./scripts/index.js"></script>
     </body>
 </html>
