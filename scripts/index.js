@@ -19,7 +19,6 @@ const imageTitle = imagePopup.querySelector('.popup__image-title');
 const imageSrc = imagePopup.querySelector('.popup__image');
 const cardContainer = document.querySelector('.elements');
 
-
 function  openEdit() {
     inputName.value = `${profileName.textContent}`;
     inputJob.value = `${profileJob.textContent}`;
@@ -75,7 +74,6 @@ function addCard(cardTitle, cardImage){
         imageTitle.textContent = cardTitle;
         imageSrc.src = cardImage;
     })
-    console.log(cardElement);
     cardContainer.prepend(cardElement);
 }
 
