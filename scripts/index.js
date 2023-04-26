@@ -75,7 +75,7 @@ function createCard(cardObj){
     const cardImage = cardElement.querySelector('.element__image');
     cardElement.querySelector('.element__title').textContent = cardObj.name;
     cardImage.src = cardObj.link;
-    cardImage.alt = cardObj.title;
+    cardImage.alt = cardObj.name;
     cardElement.querySelector('.element__like-button').addEventListener('click', evt => {
         evt.target.classList.toggle('element__like-button_active')
     })
@@ -86,7 +86,7 @@ function createCard(cardObj){
         openPopup(popupImage);
         imageTitle.textContent = cardObj.name;
         imageSrc.src = cardObj.link;
-        imageSrc.alt = cardObj.title;
+        imageSrc.alt = cardObj.name;
     })
     return cardElement;
 }
