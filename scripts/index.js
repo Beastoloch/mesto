@@ -1,68 +1,81 @@
-const editPopup = document.querySelector('#edit-popup');
-const addPopup = document.querySelector('#add-popup');
-const imagePopup = document.querySelector('#image-popup');
-const editCloseBtn = editPopup.querySelector('.popup__exit-button');
-const addCloseBtn = addPopup.querySelector('.popup__exit-button');
-const imageCloseBtn = imagePopup.querySelector('.popup__exit-button');
+const popupProfile = document.querySelector('#edit-popup');
+const popupAdding = document.querySelector('#add-popup');
+const popupImage = document.querySelector('#image-popup');
+const closeBtnProfile = popupProfile.querySelector('.popup__exit-button');
+const closeBtnAdding = popupAdding.querySelector('.popup__exit-button');
+const closeBtnImage = popupImage.querySelector('.popup__exit-button');
 const profile = document.querySelector('.profile');
-const editBtn = profile.querySelector('.profile__edit-button');
-const addBtn = profile.querySelector('.profile__add-button');
+const profileBtn = profile.querySelector('.profile__edit-button');
+const addingBtn = profile.querySelector('.profile__add-button');
 const profileName = profile.querySelector('.profile__name');
 const profileJob = profile.querySelector('.profile__job');
-const formEdit = editPopup.querySelector('.popup__form');
-const inputName = formEdit.querySelector('.popup__input_type_name');
-const inputJob = formEdit.querySelector('.popup__input_type_job');
-const formAdd = addPopup.querySelector('.popup__form');
-const inputPlace = formAdd.querySelector('.popup__input_type_place');
-const inputImage = formAdd.querySelector('.popup__input_type_image');
-const imageTitle = imagePopup.querySelector('.popup__image-title');
-const imageSrc = imagePopup.querySelector('.popup__image');
+const formProfile = popupProfile.querySelector('.popup__form');
+const inputName = formProfile.querySelector('.popup__input_type_name');
+const inputJob = formProfile.querySelector('.popup__input_type_job');
+const formAdding = popupAdding.querySelector('.popup__form');
+const inputPlace = formAdding.querySelector('.popup__input_type_place');
+const inputImage = formAdding.querySelector('.popup__input_type_image');
+const imageTitle = popupImage.querySelector('.popup__image-title');
+const imageSrc = popupImage.querySelector('.popup__image');
 const cardContainer = document.querySelector('.elements');
+
+function openPopup(popup) {
+    popup.classList.add('popup_opened');
+}
 
 function  openEdit() {
     inputName.value = `${profileName.textContent}`;
     inputJob.value = `${profileJob.textContent}`;
-    editPopup.classList.add('popup_opened');
+    openPopup(popupProfile);
 }
 
 function openAdd() {
-    inputPlace.value = null;
-    inputImage.value = null;
-    addPopup.classList.add('popup_opened');
+    formAdding.reset();
+    openPopup(popupAdding);
+}
+
+function closePopup(popup){
+    popup.classList.remove('popup_opened');
 }
 
 function  closeEdit() {
-    editPopup.classList.remove('popup_opened');
+    closePopup(popupProfile);
 }
 
 function closeAdd() {
-    addPopup.classList.remove('popup_opened');
+    closePopup(popupAdding);
 }
 
 function closeImage() {
-    imagePopup.classList.remove('popup_opened');
+    closePopup(popupImage);
 }
 
 function submitEdit(evt) {
     evt.preventDefault();
-    const newName = inputName.value;
-    const newJob = inputJob.value;
-    profileName.textContent = newName;
-    profileJob.textContent = newJob;
-    closeEdit();
+    profileName.textContent = inputName.value;
+    profileJob.textContent = inputJob.value;
+    closePopup(popupProfile);
 }
 
 function submitAdd(evt) {
     evt.preventDefault();
-    addCard(inputPlace.value, inputImage.value);
-    closeAdd();
+    const cardObj = { name: inputPlace.value, link: inputImage.value };
+    renderCard(cardObj);
+    closePopup(popupAdding);
 }
 
-function addCard(cardTitle, cardImage){
+function renderCard(cardObj){
+    const cardElement = createCard(cardObj);
+    cardContainer.prepend(cardElement);
+}
+
+function createCard(cardObj){
     const cardTemplate = document.querySelector('#card-template').content;
     const cardElement = cardTemplate.querySelector('.element').cloneNode(true);
-    cardElement.querySelector('.element__title').textContent = cardTitle;
-    cardElement.querySelector('.element__image').src = cardImage;
+    const cardImage = cardElement.querySelector('.element__image');
+    cardElement.querySelector('.element__title').textContent = cardObj.name;
+    cardImage.src = cardObj.link;
+    cardImage.alt = cardObj.title;
     cardElement.querySelector('.element__like-button').addEventListener('click', evt => {
         evt.target.classList.toggle('element__like-button_active')
     })
@@ -70,53 +83,28 @@ function addCard(cardTitle, cardImage){
         cardElement.remove();
     })
     cardElement.querySelector('.element__image').addEventListener('click', () => {
-        imagePopup.classList.add('popup_opened');
-        imageTitle.textContent = cardTitle;
-        imageSrc.src = cardImage;
+        openPopup(popupImage);
+        imageTitle.textContent = cardObj.name;
+        imageSrc.src = cardObj.link;
+        imageSrc.alt = cardObj.title;
     })
-    cardContainer.prepend(cardElement);
+    return cardElement;
 }
 
-const initialCards = [
-    {
-        name: 'Кунгурская ледяная пещера',
-        link: './images/kungur.jpg'
-    },
-    {
-        name: 'гора Гамсутль',
-        link: './images/gamsutl.jpg'
-    },
-    {
-        name: 'город Болгар',
-        link: './images/bolgar.jpg'
-    },
-    {
-        name: 'Кезенойам',
-        link: './images/kezenoyam.jpg'
-    },
-    {
-        name: 'Берег Куршской Косы',
-        link: './images/kurshskaya-kosa.jpg'
-    },
-    {
-        name: 'Оймякон',
-        link: './images/oymakon.jpg'
-    }
-];
 
 initialCards.forEach(item => {
-    addCard(item.name, item.link);
+    renderCard(item);
 })
 
-editBtn.addEventListener('click', openEdit);
-addBtn.addEventListener('click', openAdd);
+profileBtn.addEventListener('click', openEdit);
+addingBtn.addEventListener('click', openAdd);
 
-editCloseBtn.addEventListener('click', closeEdit);
-addCloseBtn.addEventListener('click', closeAdd);
-imageCloseBtn.addEventListener('click', closeImage);
+closeBtnProfile.addEventListener('click', closeEdit);
+closeBtnAdding.addEventListener('click', closeAdd);
+closeBtnImage.addEventListener('click', closeImage);
 
-formEdit.addEventListener('submit', submitEdit);
-formAdd.addEventListener('submit', submitAdd);
+formProfile.addEventListener('submit', submitEdit);
+formAdding.addEventListener('submit', submitAdd);
 
 
 

@@ -1,7 +1,7 @@
 .elements{
     display: flex;
     width: calc(100vw - 2.375rem);
-    max-width: 55rem;
+    max-width: 57rem;
     flex-wrap: wrap;
     margin: 0 auto 4.3rem;
     justify-content: center;
