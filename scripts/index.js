@@ -19,7 +19,7 @@ const cardContainer = document.querySelector('.elements');
 const openPopup = (popup) => {
     openErrorCheck(popup.querySelector('.form'));
     document.addEventListener('keydown', setEscListener);
-    document.addEventListener('click', setOverlayListener);
+    document.addEventListener('mousedown', setOverlayListener);
     popup.classList.add('popup_opened');
 }
 
@@ -27,13 +27,15 @@ const openErrorCheck = (formElement) => {
     if(formElement){
         const inputList = Array.from(formElement.querySelectorAll('.form__input'));
         inputList.forEach((inputElement) => {
-            hideInputError(formElement,inputElement);
-            toggleButtonState(inputList, formElement.querySelector('.popup__save-button'));
+            hideInputError({inputErrorClass: 'form__input_type_error', errorClass: 'form__input-error_active'},
+                formElement, inputElement);
+            toggleButtonState({inactiveButtonClass: 'popup__save-button_inactive'}, inputList,
+                formElement.querySelector('.popup__save-button'));
         });
     }
 }
 
-const  openEdit = () => {
+const openEdit = () => {
     inputName.value = `${profileName.textContent}`;
     inputJob.value = `${profileJob.textContent}`;
     openPopup(popupProfile);
@@ -51,18 +53,14 @@ const closePopup = (popup) => {
 }
 
 const setEscListener = (evt) => {
-    const popupList = Array.from(document.querySelectorAll('.popup'));
-    popupList.forEach(popup => {
-        if(popup.classList.contains('popup_opened') && evt.key === 'Escape')
-            closePopup(popup);
-    })
+    const popup =  document.querySelector('.popup_opened');
+    if(evt.key === 'Escape')
+        closePopup(popup);
 }
 
 const setOverlayListener = (evt) => {
-    const popupContainerClosest = evt.target.closest('.popup__container');
-    const popupClosest = evt.target.closest('.popup');
-    if(!popupContainerClosest && popupClosest)
-        closePopup(popupClosest);
+    if(evt.target.classList.contains('popup'))
+        closePopup(evt.target.closest('.popup'));
 }
 
 const submitEdit = (evt) => {
@@ -113,16 +111,6 @@ initialCards.forEach(item => {
 profileBtn.addEventListener('click', openEdit);
 addingBtn.addEventListener('click', openAdd);
 
-
-
-
-
-document.addEventListener('click', evt => {
-    const popupContainerClosest = evt.target.closest('.popup__container');
-    const popupClosest = evt.target.closest('.popup');
-    if(!popupContainerClosest && popupClosest)
-        closePopup(popupClosest);
-})
 
 document.querySelectorAll('.popup__exit-button').forEach(button => {
     const buttonsPopup = button.closest('.popup');
