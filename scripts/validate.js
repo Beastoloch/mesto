@@ -42,10 +42,7 @@ const setEventListeners = (formElement) => {
     const buttonElement = formElement.querySelector('.popup__save-button');
     toggleButtonState(inputList, buttonElement);
     inputList.forEach((inputElement) => {
-        inputElement.addEventListener('input', function (evt) {
-            if(evt.target){
-                console.log(evt.target);
-            }
+        inputElement.addEventListener('input', function () {
             checkInputValidity(formElement, inputElement);
             toggleButtonState(inputList, buttonElement);
         });
