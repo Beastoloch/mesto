@@ -1,4 +1,4 @@
-.popup__container{
+.popup__form-container{
     display: flex;
     flex-direction: column;
     position: relative;
@@ -11,7 +11,7 @@
 }
 
 @media screen and (max-width: 620px){
-    .popup__container{
+    .popup__form-container{
         min-height: 20.125rem;
     }
 }
