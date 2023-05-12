@@ -53,9 +53,10 @@ const closePopup = (popup) => {
 }
 
 const setEscListener = (evt) => {
-    const popup =  document.querySelector('.popup_opened');
-    if(evt.key === 'Escape')
+    if(evt.key === 'Escape'){
+        const popup =  document.querySelector('.popup_opened');
         closePopup(popup);
+    }
 }
 
 const setOverlayListener = (evt) => {
