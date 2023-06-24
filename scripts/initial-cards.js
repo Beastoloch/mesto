@@ -1,4 +1,4 @@
-const initialCards = [
+export const initialCards = [
     {
         name: 'Кунгурская ледяная пещера',
         link: './images/kungur.jpg'
