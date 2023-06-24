@@ -14,24 +14,13 @@ const inputImage = formAdding.querySelector('.form__input_type_image');
 const cardContainer = document.querySelector('.elements');
 import Card from './card.js';
 import FormValidator from './FormValidator.js';
+import {initialCards} from './initial-cards.js';
 
 export const openPopup = (popup) => {
     document.addEventListener('keydown', setEscListener);
     document.addEventListener('mousedown', setOverlayListener);
     popup.classList.add('popup_opened');
 }
-
-// const openErrorCheck = (formElement) => {
-//     if(formElement){
-//         const inputList = Array.from(formElement.querySelectorAll('.form__input'));
-//         inputList.forEach((inputElement) => {
-//             hideInputError({inputErrorClass: 'form__input_type_error', errorClass: 'form__input-error_active'},
-//                 formElement, inputElement);
-//             toggleButtonState({inactiveButtonClass: 'popup__save-button_inactive'}, inputList,
-//                 formElement.querySelector('.popup__save-button'));
-//         });
-//     }
-// }
 
 const openEdit = () => {
     inputName.value = `${profileName.textContent}`;
@@ -45,10 +34,6 @@ const openAdd = () => {
 }
 
 const closePopup = (popup) => {
-    const formCheck = popup.querySelector('.form');
-    if (formCheck){
-        Validation();
-    }
     popup.classList.remove('popup_opened');
     document.removeEventListener('keydown', setEscListener);
     document.removeEventListener('click', setOverlayListener);
@@ -86,29 +71,6 @@ const renderCard = (cardObj) => {
     cardContainer.prepend(cardElement);
 }
 
-// const createCard = (cardObj) => {
-//     const cardTemplate = document.querySelector('#card-template').content;
-//     const cardElement = cardTemplate.querySelector('.element').cloneNode(true);
-//     const cardImage = cardElement.querySelector('.element__image');
-//     cardElement.querySelector('.element__title').textContent = cardObj.name;
-//     cardImage.src = cardObj.link;
-//     cardImage.alt = cardObj.name;
-//     cardElement.querySelector('.element__like-button').addEventListener('click', evt => {
-//         evt.target.classList.toggle('element__like-button_active')
-//     })
-//     cardElement.querySelector('.element__delete-button').addEventListener('click', () => {
-//         cardElement.remove();
-//     })
-//     cardElement.querySelector('.element__image').addEventListener('click', () => {
-//         openPopup(popupImage);
-//         imageTitle.textContent = cardObj.name;
-//         imageSrc.src = cardObj.link;
-//         imageSrc.alt = cardObj.name;
-//     });
-//     return cardElement;
-// }
-
-import {initialCards} from './initial-cards.js';
 initialCards.forEach(item => {
     renderCard(item);
 });
