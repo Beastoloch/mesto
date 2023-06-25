@@ -1,17 +1,14 @@
-const popupImage = document.querySelector('#image-popup');
-const imageTitle = popupImage.querySelector('.popup__image-title');
-const imageSrc = popupImage.querySelector('.popup__image');
-import {openPopup} from './index.js';
-
 export default class Card {
-    constructor(data) {
+    constructor(data, cardSelector, handleCardClick) {
         this._title = data.name;
         this._image = data.link;
+        this._handleCardClick = handleCardClick;
+        this._cardSelector = cardSelector
     }
 
     _getTemplate() {
         const cardElement = document
-            .querySelector('#card-template')
+            .querySelector(this._cardSelector)
             .content
             .cloneNode(true);
 
@@ -25,26 +22,20 @@ export default class Card {
         this._element.querySelector('.element__delete-button').addEventListener('click', (evt) => {
             evt.target.parentNode.remove();
         });
-        this._element.querySelector('.element__image').addEventListener('click', () => {
-            imageTitle.textContent = this._title;
-            imageSrc.src = this._image;
-            imageSrc.alt = this._title;
-            openPopup(popupImage);
+        this._cardImage.addEventListener('click', () => {
+            this._handleCardClick(this._title, this._image);
         });
-    }
-
-    _handleOpenPopup() {
-        document.addEventListener('keydown', setEscListener);
-        document.addEventListener('mousedown', setOverlayListener);
-        popupImage.classList.add('popup_opened');
     }
 
     generateCard() {
         this._element = this._getTemplate();
+        this._cardImage = this._element.querySelector('.element__image');
+        this._cardTitle = this._element.querySelector('.element__title');
         this._setEventListeners();
         
-        this._element.querySelector('.element__title').textContent = this._title;
-        this._element.querySelector('.element__image').src = this._image;
+        this._cardTitle.textContent = this._title;
+        this._cardImage.src = this._image;
+        this._cardImage.alt = this._title;
 
         return this._element;
     }

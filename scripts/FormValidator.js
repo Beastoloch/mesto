@@ -13,10 +13,6 @@ export default class FormValidator {
                 this._checkInputValidity(inputElement);
                 this._toggleButtonState();
             });
-            inputElement.addEventListener('mouseover', () => {
-                this._checkInputValidity(inputElement);
-                this._toggleButtonState();
-            });
         });
     };
 
@@ -29,16 +25,19 @@ export default class FormValidator {
     };
 
     _showInputError(inputElement){
-        this._errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
+        const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
         inputElement.classList.add(this._config.inputErrorClass);
-        this._errorElement.textContent = inputElement.validationMessage;
-        this._errorElement.classList.add(this._config.errorClass);
+        errorElement.textContent = inputElement.validationMessage;
+        errorElement.classList.add(this._config.errorClass);
     };
     
     _hideInputError(inputElement){
+        const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
         inputElement.classList.remove(this._config.inputErrorClass);
-        this._errorElement.textContent = '';
-        this._errorElement.classList.remove(this._config.errorClass);
+        if (errorElement){
+            errorElement.textContent = '';
+            errorElement.classList.remove(this._config.errorClass);
+        }
     };
 
     _toggleButtonState(){
@@ -56,6 +55,13 @@ export default class FormValidator {
         return this._inputList.some(inputElement => {
             return !inputElement.validity.valid;
         })
+    }
+
+    resetValidation(){
+        this._toggleButtonState();
+        this._inputList.forEach((inputElement) => {
+            this._hideInputError(inputElement);
+        });
     }
 
     enableValidation(){
