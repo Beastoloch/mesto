@@ -1,8 +1,6 @@
 import { 
     profileBtn,
     addingBtn,
-    inputName,
-    inputJob,
     config 
 } from '../utils/constants.js';
 import Card from '../components/Card.js';
@@ -12,7 +10,7 @@ import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
-import './styles/index.css';
+import '../styles/index.css';
 
 const formValidators = {};
 
@@ -35,7 +33,7 @@ const renderCard = (cardObj) => {
 
 const submitEdit = () => {
     const inputObj = editPopup.getValue();
-    userInfo.setUserInfo(inputObj['input-name'], inputObj['input-job']);
+    userInfo.setUserInfo(inputObj['name'], inputObj['info']);
     editPopup.close();
 }
 
@@ -43,14 +41,13 @@ const submitAdd = () => {
     const inputObj = addPopup.getValue();
     renderCard({ name: inputObj['place-input'], link: inputObj['image-input'] });
     addPopup.close();
-    document.forms['adding-form'].reset();
     formValidators['adding-form'].resetValidation();
 }
 
 const openEdit = () => {
     const newUserInfo = userInfo.getUserInfo();
-    inputName.value = newUserInfo.name;
-    inputJob.value = newUserInfo.info;
+    console.log(newUserInfo);
+    editPopup.setInputValues(newUserInfo);
     formValidators['profile-form'].resetValidation();
     editPopup.open();
 }
@@ -85,8 +82,3 @@ cardList.renderItems();
 
 profileBtn.addEventListener('click', openEdit);
 addingBtn.addEventListener('click', openAdd);
-
-
-
-
-

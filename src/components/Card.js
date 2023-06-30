@@ -3,7 +3,8 @@ export default class Card {
         this._title = data.name;
         this._image = data.link;
         this._handleCardClick = handleCardClick;
-        this._cardSelector = cardSelector
+        this._handleImageClick = this._handleImageClick.bind(this);
+        this._cardSelector = cardSelector;
     }
 
     _getTemplate() {
@@ -15,16 +16,23 @@ export default class Card {
         return cardElement;
     }
 
+    _toggleLike(evt) {
+        evt.target.classList.toggle('element__like-button_active');
+    }
+
+    _deleteCard(evt) {
+        evt.target.closest('.element').remove();
+    }
+
+    _handleImageClick() {
+        console.log(this._title);
+        this._handleCardClick(this._title, this._image);
+    }
+
     _setEventListeners() {
-        this._element.querySelector('.element__like-button').addEventListener('click', evt => {
-            evt.target.classList.toggle('element__like-button_active');
-        });
-        this._element.querySelector('.element__delete-button').addEventListener('click', (evt) => {
-            evt.target.parentNode.remove();
-        });
-        this._cardImage.addEventListener('click', () => {
-            this._handleCardClick(this._title, this._image);
-        });
+        this._element.querySelector('.element__like-button').addEventListener('click', this._toggleLike);
+        this._element.querySelector('.element__delete-button').addEventListener('click', this._deleteCard);
+        this._cardImage.addEventListener('click', this._handleImageClick);
     }
 
     generateCard() {
