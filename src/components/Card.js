@@ -1,9 +1,11 @@
 export default class Card {
-    constructor(data, cardSelector, handleCardClick) {
+    constructor(data, cardSelector, handleCardClick, handleDeleteClick) {
         this._title = data.name;
         this._image = data.link;
         this._handleCardClick = handleCardClick;
+        this._handleDeleteClick = handleDeleteClick;
         this._handleImageClick = this._handleImageClick.bind(this);
+        this._deleteCard = this._deleteCard.bind(this);
         this._cardSelector = cardSelector;
     }
 
@@ -21,11 +23,11 @@ export default class Card {
     }
 
     _deleteCard(evt) {
-        evt.target.closest('.element').remove();
+        this._handleDeleteClick(evt.target.closest('.element'));
+        // evt.target.closest('.element').remove();
     }
 
     _handleImageClick() {
-        console.log(this._title);
         this._handleCardClick(this._title, this._image);
     }
 

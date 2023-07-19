@@ -5,8 +5,10 @@
     height: 7.5rem;
 }
 
-@media screen and (max-width: 620px){
-    .profile__avatar{
-        margin: 0 auto 1.65rem;
-    }
-}
+
+
+/*@media screen and (max-width: 620px){*/
+/*    .profile__avatar{*/
+/*        margin: 0 auto 1.65rem;*/
+/*    }*/
+/*}*/

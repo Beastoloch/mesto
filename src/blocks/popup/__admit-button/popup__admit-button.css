@@ -1,4 +1,4 @@
-.popup__save-button{
+.popup__admit-button{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,6 +9,7 @@
     color: #FFFFFF;
     background-color: #000000;
     width: 100%;
+    max-width: 22.375rem;
     height: 3.125rem;
     border-radius: 2px;
     margin: 1.2rem auto 2.313rem;
@@ -16,12 +17,12 @@
     transition: opacity 0.3s linear;
 }
 
-.popup__save-button:hover{
+.popup__admit-button:hover{
     opacity: 0.8;
 }
 
 @media screen and (max-width: 620px){
-    .popup__save-button{
+    .popup__admit-button{
         padding: 0;
         font-size: 0.875rem;
         line-height: 1.059rem;
