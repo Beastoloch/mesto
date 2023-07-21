@@ -94,7 +94,6 @@ export default class Api {
             .then((response) => {
                 if(response.ok)
                     return response.json().then((data) => {
-                        console.log(data);
                         return data;
                     }).catch((err) => {
                         console.log(err);
