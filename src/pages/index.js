@@ -2,11 +2,14 @@ import {
     profileBtn,
     addingBtn,
     avatarBtn,
-    config 
+    config,
+    submitBtnMessage,
+    deleteBtnMessage,
+    options
 } from '../utils/constants.js';
+import Api from '../components/Api.js';
 import Card from '../components/Card.js';
 import FormValidator from '../components/FormValidator.js';
-import {initialCards} from '../utils/initial-cards.js';
 import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
@@ -33,32 +36,50 @@ const renderCard = (cardObj) => {
     cardList.addItem(cardElement);
 }
 
-const submitEdit = () => {
+const submitEdit = async () => {
     const inputObj = editPopup.getValue();
+    editPopup.renderLoading(true, submitBtnMessage);
+    await api.setUserInfo(inputObj['name'], inputObj['info']);
     userInfo.setUserInfo(inputObj['name'], inputObj['info']);
+    editPopup.renderLoading(false);
     editPopup.close();
 }
 
-const submitAvatar = () => {
+const submitAvatar = async () => {
     const inputObj = avatarPopup.getValue();
+    avatarPopup.renderLoading(true, submitBtnMessage);
+    await api.setUserAvatar(inputObj['avatar']);
     userInfo.setUserAvatar(inputObj['avatar']);
+    avatarPopup.renderLoading(false);
     avatarPopup.close();
 }
 
-const submitAdd = () => {
+const submitAdd = async () => {
     const inputObj = addPopup.getValue();
-    renderCard({ name: inputObj['place-input'], link: inputObj['image-input'] });
+    addPopup.renderLoading(true, submitBtnMessage);
+    const cardObj = await api.postNewCard(inputObj['place-input'], inputObj['image-input']);
+    renderCard(cardObj);
+    addPopup.renderLoading(false);
     addPopup.close();
 }
 
-const deleteCard = (evt) => {
+const deleteCard = async (evt, id) => {
+    deletePopup.renderLoading(true, deleteBtnMessage);
+    await api.deleteCard(id);
     evt.remove();
+    deletePopup.renderLoading(false);
     deletePopup.close();
+}
+
+const handleToggleLike = async (id, isLiked) => {
+    if (isLiked)
+        return await api.deleteLike(id);
+    else
+        return await api.putLike(id);
 }
 
 const openEdit = () => {
     const newUserInfo = userInfo.getUserInfo();
-    console.log(newUserInfo);
     editPopup.setInputValues(newUserInfo);
     formValidators['profile-form'].resetValidation();
     editPopup.open();
@@ -78,11 +99,13 @@ const handleCardClick = (name, link) => {
     imagePopup.open(name, link);
 }
 
-const handleDeleteClick = (evt) => {
-    deletePopup.open(evt);
+const handleDeleteClick = (evt, id) => {
+    deletePopup.open(evt, id);
 }
 
-const userInfo = new UserInfo('.profile__name', '.profile__job', '.profile__avatar');
+const isBelongsToAcc = (profile) => {
+    return (JSON.stringify(userLoadedInfo) === JSON.stringify(profile));
+}
 
 const imagePopup = new PopupWithImage('#image-popup');
 imagePopup.setEventListeners();
@@ -99,13 +122,22 @@ addPopup.setEventListeners();
 const deletePopup = new PopupWithDelete('#delete-popup', deleteCard);
 deletePopup.setEventListeners();
 
+const api = new Api(options);
+
+const userInfo = new UserInfo('.profile__name', '.profile__job', '.profile__avatar');
+
+const userLoadedInfo = await api.getUserInfo();
+userInfo.setUserInfo(userLoadedInfo.name, userLoadedInfo.about);
+userInfo.setUserAvatar(userLoadedInfo.avatar);
+
 const createCard = (cardObj) => {
-    const card = new Card(cardObj, '#card-template', handleCardClick, handleDeleteClick);
+    const card = new Card(cardObj, '#card-template', handleCardClick, handleDeleteClick, isBelongsToAcc, handleToggleLike);
     const cardElement = card.generateCard();
     return cardElement;
 }
 
-const cardList = new Section({data: initialCards, renderer: renderCard}, '.elements'); 
+
+const cardList = new Section({data: await api.getInitialCards(), renderer: renderCard}, '.elements');
 cardList.renderItems();
 
 avatarBtn.addEventListener('click', openAvatar);

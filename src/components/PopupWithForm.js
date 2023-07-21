@@ -5,6 +5,8 @@ export default class PopupWithForm extends Popup {
         super(popupSelector);
         this._submitForm = submitForm;
         this._form = this._popup.querySelector('.form');
+        this._buttonMessage = this._form.querySelector('.popup__admit-button');
+        this._origButtonMessage = this._buttonMessage.textContent;
         this._inputList = Array.from(this._form.querySelectorAll('.form__input'));
    }
    
@@ -16,6 +18,13 @@ export default class PopupWithForm extends Popup {
         })
    }
 
+   renderLoading(isLoading, message) {
+       if(isLoading)
+           this._buttonMessage.textContent = message;
+       else
+           this._buttonMessage.textContent = this._origButtonMessage;
+   }
+
    open(){
        this._form.reset();
        super.open();
@@ -23,7 +32,7 @@ export default class PopupWithForm extends Popup {
 
    setInputValues(data) {
        this._inputList.forEach((input) => {
-           input.value = data[input.name];
+           input.setAttribute("value", data[input.name]);
        });
    }
 
