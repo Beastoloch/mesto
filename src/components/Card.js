@@ -24,10 +24,13 @@ export default class Card {
         return cardElement;
     }
 
-    async _toggleLike() {
-        this._likes = await this._handleToggleLike(this._id, this._likeButton.classList.contains('element__like-button_active'));
-        this._likesCount.textContent = this._likes.likes.length;
+    readyToToggleLike(info) {
+        this._likesCount.textContent = info.likes.length;
         this._likeButton.classList.toggle('element__like-button_active');
+    }
+
+    _toggleLike() {
+        this._handleToggleLike(this, this._id, this._likeButton.classList.contains('element__like-button_active'));
     }
 
     _deleteCard(evt) {

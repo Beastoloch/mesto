@@ -25,11 +25,7 @@ export default class Api {
         return fetch(`${this._baseUrl}/users/me`,
             {headers: this._headers})
             .then((res) => {
-                return this._getResponseData(res).then((data) => {
-                    return data;
-                }).catch((err) => {
-                    console.log(err);
-                })
+                return this._getResponseData(res)
             });
     }
 

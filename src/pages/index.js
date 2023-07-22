@@ -36,73 +36,73 @@ const renderCard = (cardObj) => {
     cardList.addItem(cardElement);
 }
 
-const submitEditForm = async () => {
+const submitEditForm = () => {
     const inputObj = editPopup.getValue();
     editPopup.renderLoading(true, submitBtnMessage);
-    await api.setUserInfo(inputObj['name'], inputObj['info'])
+    api.setUserInfo(inputObj['name'], inputObj['info'])
         .then((info) => {
             userInfo.setUserInfo(info.name, info.about);
+            editPopup.close();
         })
         .catch(err => console.log(`Ошибка...: ${err}`))
         .finally(() => {
             editPopup.renderLoading(false);
         });
-    editPopup.close();
 }
 
-const submitAvatarForm = async () => {
+const submitAvatarForm = () => {
     const inputObj = avatarPopup.getValue();
     avatarPopup.renderLoading(true, submitBtnMessage);
-    await api.setUserAvatar(inputObj['avatar'])
+    api.setUserAvatar(inputObj['avatar'])
         .then((info) => {
             userInfo.setUserAvatar(info.avatar);
+            avatarPopup.close();
         })
         .catch(err => console.log(`Ошибка...: ${err}`))
         .finally(() => {
             avatarPopup.renderLoading(false);
         });
-    avatarPopup.close();
 }
 
-const submitCardForm = async () => {
+const submitCardForm = () => {
     const inputObj = addingPopup.getValue();
     addingPopup.renderLoading(true, submitBtnMessage);
-    await api.postNewCard(inputObj['place-input'], inputObj['image-input'])
+    api.postNewCard(inputObj['place-input'], inputObj['image-input'])
         .then((info) => {
             renderCard(info);
+            addingPopup.close();
         })
         .catch(err => console.log(`Ошибка...: ${err}`))
         .finally(() => {
             addingPopup.renderLoading(false);
         });
-    addingPopup.close();
 }
 
-const deleteCard = async (card, id) => {
+const deleteCard = (card, id) => {
     deletePopup.renderLoading(true, deleteBtnMessage);
-    await api.deleteCard(id)
+    api.deleteCard(id)
         .then(() => {
             card.readyToDelete();
+            deletePopup.close();
         })
         .catch(err => console.log(`Ошибка...: ${err}`))
         .finally(() => {
             deletePopup.renderLoading(false);
         });
-    deletePopup.close();
 }
 
-const handleToggleLike = async (id, isLiked) => {
+const handleToggleLike = (card, id, isLiked) => {
     if (isLiked) {
-        return await api.deleteLike(id)
+        api.deleteLike(id)
             .then((info) => {
-                return info;
+                card.readyToToggleLike(info);
             })
             .catch(err => console.log(`Ошибка...: ${err}`))
     }
     else {
-        return await api.putLike(id)
+        api.putLike(id)
             .then((info) => {
-                return info;
+                card.readyToToggleLike(info);
             })
             .catch(err => console.log(`Ошибка...: ${err}`))
     }
@@ -157,6 +157,7 @@ const api = new Api(options);
 const userInfo = new UserInfo('.profile__name', '.profile__job', '.profile__avatar');
 
 let userLoadedInfo;
+let cardsData;
 const cardList = new Section({ renderer: renderCard }, '.elements');
 
 Promise.all([
@@ -164,11 +165,11 @@ Promise.all([
     api.getInitialCards()
 ])
     .then((values) => {
-        userLoadedInfo = values[0];
+        [userLoadedInfo, cardsData] = values;
         userInfo.setUserInfo(userLoadedInfo.name, userLoadedInfo.about);
         userInfo.setUserAvatar(userLoadedInfo.avatar);
 
-        cardList.renderItems(values[1]);
+        cardList.renderItems(cardsData);
     })
     .catch((err)=>{
         console.log(`Ошибка...: ${err}`);
