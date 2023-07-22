@@ -16,16 +16,16 @@ export default class PopupWithDelete extends Popup {
             this._button.textContent = this._origButtonMessage;
     }
 
-    open(evt, id) {
-        this._evt = evt;
-        this._id = id
+    open(card, id) {
+        this._card = card;
+        this._id = id;
         super.open();
     }
 
     setEventListeners() {
         super.setEventListeners();
         this._button.addEventListener('click', () => {
-            this._deleteCard(this._evt, this._id);
+            this._deleteCard(this._card, this._id);
         })
     }
 }

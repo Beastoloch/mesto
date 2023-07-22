@@ -36,62 +36,92 @@ const renderCard = (cardObj) => {
     cardList.addItem(cardElement);
 }
 
-const submitEdit = async () => {
+const submitEditForm = async () => {
     const inputObj = editPopup.getValue();
     editPopup.renderLoading(true, submitBtnMessage);
-    await api.setUserInfo(inputObj['name'], inputObj['info']);
-    userInfo.setUserInfo(inputObj['name'], inputObj['info']);
-    editPopup.renderLoading(false);
+    await api.setUserInfo(inputObj['name'], inputObj['info'])
+        .then((info) => {
+            userInfo.setUserInfo(info.name, info.about);
+        })
+        .catch(err => console.log(`Ошибка...: ${err}`))
+        .finally(() => {
+            editPopup.renderLoading(false);
+        });
     editPopup.close();
 }
 
-const submitAvatar = async () => {
+const submitAvatarForm = async () => {
     const inputObj = avatarPopup.getValue();
     avatarPopup.renderLoading(true, submitBtnMessage);
-    await api.setUserAvatar(inputObj['avatar']);
-    userInfo.setUserAvatar(inputObj['avatar']);
-    avatarPopup.renderLoading(false);
+    await api.setUserAvatar(inputObj['avatar'])
+        .then((info) => {
+            userInfo.setUserAvatar(info.avatar);
+        })
+        .catch(err => console.log(`Ошибка...: ${err}`))
+        .finally(() => {
+            avatarPopup.renderLoading(false);
+        });
     avatarPopup.close();
 }
 
-const submitAdd = async () => {
-    const inputObj = addPopup.getValue();
-    addPopup.renderLoading(true, submitBtnMessage);
-    const cardObj = await api.postNewCard(inputObj['place-input'], inputObj['image-input']);
-    renderCard(cardObj);
-    addPopup.renderLoading(false);
-    addPopup.close();
+const submitCardForm = async () => {
+    const inputObj = addingPopup.getValue();
+    addingPopup.renderLoading(true, submitBtnMessage);
+    await api.postNewCard(inputObj['place-input'], inputObj['image-input'])
+        .then((info) => {
+            renderCard(info);
+        })
+        .catch(err => console.log(`Ошибка...: ${err}`))
+        .finally(() => {
+            addingPopup.renderLoading(false);
+        });
+    addingPopup.close();
 }
 
-const deleteCard = async (evt, id) => {
+const deleteCard = async (card, id) => {
     deletePopup.renderLoading(true, deleteBtnMessage);
-    await api.deleteCard(id);
-    evt.remove();
-    deletePopup.renderLoading(false);
+    await api.deleteCard(id)
+        .then(() => {
+            card.readyToDelete();
+        })
+        .catch(err => console.log(`Ошибка...: ${err}`))
+        .finally(() => {
+            deletePopup.renderLoading(false);
+        });
     deletePopup.close();
 }
 
 const handleToggleLike = async (id, isLiked) => {
-    if (isLiked)
-        return await api.deleteLike(id);
-    else
-        return await api.putLike(id);
+    if (isLiked) {
+        return await api.deleteLike(id)
+            .then((info) => {
+                return info;
+            })
+            .catch(err => console.log(`Ошибка...: ${err}`))
+    }
+    else {
+        return await api.putLike(id)
+            .then((info) => {
+                return info;
+            })
+            .catch(err => console.log(`Ошибка...: ${err}`))
+    }
 }
 
-const openEdit = () => {
+const openEditPopup = () => {
     const newUserInfo = userInfo.getUserInfo();
     editPopup.setInputValues(newUserInfo);
     formValidators['profile-form'].resetValidation();
     editPopup.open();
 }
 
-const openAvatar = () => {
+const openAvatarPopup = () => {
     avatarPopup.open();
     formValidators['avatar-form'].resetValidation();
 }
 
-const openAdd = () => {
-    addPopup.open();
+const openAddingPopup = () => {
+    addingPopup.open();
     formValidators['adding-form'].resetValidation();
 }
 
@@ -99,8 +129,8 @@ const handleCardClick = (name, link) => {
     imagePopup.open(name, link);
 }
 
-const handleDeleteClick = (evt, id) => {
-    deletePopup.open(evt, id);
+const handleDeleteClick = (card, id) => {
+    deletePopup.open(card, id);
 }
 
 const isBelongsToAcc = (profile) => {
@@ -110,14 +140,14 @@ const isBelongsToAcc = (profile) => {
 const imagePopup = new PopupWithImage('#image-popup');
 imagePopup.setEventListeners();
 
-const editPopup = new PopupWithForm('#edit-popup', submitEdit);
+const editPopup = new PopupWithForm('#edit-popup', submitEditForm);
 editPopup.setEventListeners();
 
-const avatarPopup = new PopupWithForm('#avatar-popup', submitAvatar);
+const avatarPopup = new PopupWithForm('#avatar-popup', submitAvatarForm);
 avatarPopup.setEventListeners();
 
-const addPopup = new PopupWithForm('#add-popup', submitAdd);
-addPopup.setEventListeners();
+const addingPopup = new PopupWithForm('#add-popup', submitCardForm);
+addingPopup.setEventListeners();
 
 const deletePopup = new PopupWithDelete('#delete-popup', deleteCard);
 deletePopup.setEventListeners();
@@ -126,20 +156,29 @@ const api = new Api(options);
 
 const userInfo = new UserInfo('.profile__name', '.profile__job', '.profile__avatar');
 
-const userLoadedInfo = await api.getUserInfo();
-userInfo.setUserInfo(userLoadedInfo.name, userLoadedInfo.about);
-userInfo.setUserAvatar(userLoadedInfo.avatar);
+let userLoadedInfo;
+const cardList = new Section({ renderer: renderCard }, '.elements');
+
+Promise.all([
+    api.getUserInfo(),
+    api.getInitialCards()
+])
+    .then((values) => {
+        userLoadedInfo = values[0];
+        userInfo.setUserInfo(userLoadedInfo.name, userLoadedInfo.about);
+        userInfo.setUserAvatar(userLoadedInfo.avatar);
+
+        cardList.renderItems(values[1]);
+    })
+    .catch((err)=>{
+        console.log(`Ошибка...: ${err}`);
+    })
 
 const createCard = (cardObj) => {
     const card = new Card(cardObj, '#card-template', handleCardClick, handleDeleteClick, isBelongsToAcc, handleToggleLike);
-    const cardElement = card.generateCard();
-    return cardElement;
+    return card.generateCard();
 }
 
-
-const cardList = new Section({data: await api.getInitialCards(), renderer: renderCard}, '.elements');
-cardList.renderItems();
-
-avatarBtn.addEventListener('click', openAvatar);
-profileBtn.addEventListener('click', openEdit);
-addingBtn.addEventListener('click', openAdd);
+avatarBtn.addEventListener('click', openAvatarPopup);
+profileBtn.addEventListener('click', openEditPopup);
+addingBtn.addEventListener('click', openAddingPopup);

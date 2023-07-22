@@ -4,15 +4,19 @@ export default class Api {
         this._headers = options.headers;
     }
 
+    _getResponseData(res) {
+        if (!res.ok) {
+            return Promise.reject(`Ошибка: ${res.status}`)
+        }
+        return res.json();
+    }
+
     getInitialCards(){
         return fetch(`${this._baseUrl}/cards`,
             {headers: this._headers})
-            .then((response) => {
-                if(response.ok)
-                    return response.json().then((data) => {
-                        return data.reverse();
-                    }).catch((err) => {
-                    console.log(err);
+            .then((res) => {
+                return this._getResponseData(res).then((data) => {
+                    return data.reverse();
                 })
             });
     }
@@ -20,11 +24,10 @@ export default class Api {
     getUserInfo(){
         return fetch(`${this._baseUrl}/users/me`,
             {headers: this._headers})
-            .then((response) => {
-                if(response.ok)
-                    return response.json().then((data) => {
-                        return data;
-                    }).catch((err) => {
+            .then((res) => {
+                return this._getResponseData(res).then((data) => {
+                    return data;
+                }).catch((err) => {
                     console.log(err);
                 })
             });
@@ -39,13 +42,8 @@ export default class Api {
                 link: link
             })
         })
-            .then((response) => {
-                if(response.ok)
-                    return response.json().then((data) => {
-                        return data;
-                    }).catch((err) => {
-                        console.log(err);
-                    })
+            .then((res) => {
+                return this._getResponseData(res);
             });
     }
 
@@ -58,13 +56,8 @@ export default class Api {
                 about: info
             })
         })
-            .then((response) => {
-                if(response.ok)
-                    return response.json().then((data) => {
-                        return data;
-                    }).catch((err) => {
-                    console.log(err);
-                })
+            .then((res) => {
+                return this._getResponseData(res);
             });
     }
 
@@ -76,13 +69,8 @@ export default class Api {
                 avatar: link,
             })
         })
-            .then((response) => {
-                if(response.ok)
-                    return response.json().then((data) => {
-                        return data;
-                    }).catch((err) => {
-                    console.log(err);
-                })
+            .then((res) => {
+                return this._getResponseData(res);
             });
     }
 
@@ -91,13 +79,8 @@ export default class Api {
             method: 'PUT',
             headers: this._headers,
         })
-            .then((response) => {
-                if(response.ok)
-                    return response.json().then((data) => {
-                        return data;
-                    }).catch((err) => {
-                        console.log(err);
-                    })
+            .then((res) => {
+                return this._getResponseData(res);
             });
     }
 
@@ -106,13 +89,8 @@ export default class Api {
             method: 'DELETE',
             headers: this._headers,
         })
-            .then((response) => {
-                if(response.ok)
-                    return response.json().then((data) => {
-                        return data;
-                    }).catch((err) => {
-                        console.log(err);
-                    })
+            .then((res) => {
+                return this._getResponseData(res);
             });
     }
 
@@ -121,13 +99,8 @@ export default class Api {
             method: 'DELETE',
             headers: this._headers,
         })
-            .then((response) => {
-                if(response.ok)
-                    return response.json().then((data) => {
-                        return data;
-                    }).catch((err) => {
-                        console.log(err);
-                    })
+            .then((res) => {
+                return this._getResponseData(res);
             });
     }
 }

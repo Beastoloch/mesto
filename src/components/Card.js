@@ -31,7 +31,12 @@ export default class Card {
     }
 
     _deleteCard(evt) {
-        this._handleDeleteClick(evt.target.closest('.element'), this._id);
+        this._elementToDelete = evt.target.closest('.element');
+        this._handleDeleteClick(this, this._id);
+    }
+
+    readyToDelete(){
+        this._elementToDelete.remove();
     }
 
     _handleImageClick() {
