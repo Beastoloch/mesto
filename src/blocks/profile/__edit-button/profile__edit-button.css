@@ -10,7 +10,6 @@
     border: #FFFFFF 1px solid;
     cursor:pointer;
     transition: opacity 0.3s linear;
-    flex-shrink: 1;
 }
 
 .profile__edit-button:hover{
