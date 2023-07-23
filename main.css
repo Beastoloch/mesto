@@ -540,7 +540,6 @@ template {
     border: #FFFFFF 1px solid;
     cursor:pointer;
     transition: opacity 0.3s linear;
-    flex-shrink: 1;
 }
 
 .profile__edit-button:hover{
@@ -706,6 +705,7 @@ template {
     background-color: transparent;
     background-repeat: no-repeat;
     background-size: contain;
+    background-position: center;
     background-image: url(1ad06e85f169668a1f36.svg);
     cursor: pointer;
     transition: opacity 0.2s linear;
@@ -795,6 +795,7 @@ template {
     background-image: url(039f1f5203f653b4bacd.svg);
     background-size: contain;
     background-color: transparent;
+    background-repeat: no-repeat;
     border: none;
     position: absolute;
     left: calc(100% + 0.5rem);
