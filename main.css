@@ -529,7 +529,7 @@ template {
     }
 }
 .profile__edit-button{
-    min-width: 1.5rem;
+    width: 1.5rem;
     height: 1.5rem;
     margin-left: 1.125rem;
     margin-top: 1.05rem;
@@ -549,7 +549,7 @@ template {
 
 @media screen and (max-width: 620px){
     .profile__edit-button{
-        min-width: 1.125rem;
+        width: 1.125rem;
         height: 1.125rem;
         margin-top: 0.5rem;
         margin-left: 0.75rem;
@@ -705,7 +705,7 @@ template {
     border: none;
     background-color: transparent;
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: contain;
     background-image: url(1ad06e85f169668a1f36.svg);
     cursor: pointer;
     transition: opacity 0.2s linear;
@@ -793,7 +793,7 @@ template {
     width: 2rem;
     height: 2rem;
     background-image: url(039f1f5203f653b4bacd.svg);
-    background-size: 100%;
+    background-size: contain;
     background-color: transparent;
     border: none;
     position: absolute;
